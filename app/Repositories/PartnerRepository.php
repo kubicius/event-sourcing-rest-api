@@ -7,12 +7,7 @@ use Illuminate\Support\Collection;
 
 class PartnerRepository implements Interfaces\IPartnerRepository
 {
-    public function getById(int $id): ?Partner
-    {
-        // TODO: Implement getOne() method.
-    }
-
-    public function getByUuid(string $uuid): ?Partner
+    public function getOne(string $uuid): ?Partner
     {
         return Partner::where('uuid', '=', $uuid)->first();
     }
@@ -34,12 +29,18 @@ class PartnerRepository implements Interfaces\IPartnerRepository
         return Partner::create($payload);
     }
 
-    public function update(array $data, int $id): Partner
+    public function update(string $uuid, array $data): Partner
     {
-        // TODO: Implement update() method.
+        $payload = [
+            'name' => $data['name'],
+            'description' => $data['description'],
+            'tax_number' => $data['tax_number']
+        ];
+        $payload['www'] = $data['www'] ?? null;
+        return Partner::where('uuid', '=', $uuid)->update($payload);
     }
 
-    public function delete(int $id): int
+    public function delete(string $uuid): int
     {
         // TODO: Implement delete() method.
     }

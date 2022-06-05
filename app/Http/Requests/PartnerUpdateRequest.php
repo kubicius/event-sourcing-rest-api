@@ -13,7 +13,7 @@ class PartnerUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class PartnerUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|max:255',
+            'description' => 'required|max:512',
+            'tax_number' => 'regex:/^((\d{3}[- ]\d{3}[- ]\d{2}[- ]\d{2})|(\d{3}[- ]\d{2}[- ]\d{2}[- ]\d{3})|(\d{10}))$/',
+            'www' => 'url|max:255'
         ];
     }
 }

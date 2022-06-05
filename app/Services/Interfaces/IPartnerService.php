@@ -7,9 +7,9 @@ use Illuminate\Support\Collection;
 
 interface IPartnerService
 {
-    public function getOne(int $id) : ?Partner;
+    public function getOne(string $uuid) : ?Partner;
     public function getAll() : Collection;
     public function create(array $data) : Partner;
-    public function update(array $data, int $id) : Partner;
-    public function delete(int $id) : int;
+    public function update(string $uuid, array $data) : Partner;
+    public function delete(string $uuid) : int;
 }

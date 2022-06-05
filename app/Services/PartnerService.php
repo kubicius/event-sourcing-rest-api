@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\PartnerUpdated;
 use App\Repositories\Interfaces\IPartnerRepository;
 use Illuminate\Support\Collection;
 use App\Services\Interfaces\IPartnerService;
@@ -18,7 +19,7 @@ class PartnerService implements IPartnerService
         $this->partnerRepository = $partnerRepository;
     }
 
-    public function getOne(int $id): ?Partner
+    public function getOne(string $uuid): ?Partner
     {
         // TODO: Implement getOne() method.
     }
@@ -32,15 +33,16 @@ class PartnerService implements IPartnerService
     {
         $data['uuid'] = (string) Uuid::uuid4();
         event(new PartnerCreated($data));
-        return $this->partnerRepository->getByUuid($data['uuid']);
+        return $this->partnerRepository->getOne($data['uuid']);
     }
 
-    public function update(array $data, int $id): Partner
+    public function update(string $uuid, array $data): Partner
     {
-        // TODO: Implement update() method.
+        event(new PartnerUpdated($uuid, $data));
+        return $this->partnerRepository->getOne($uuid);
     }
 
-    public function delete(int $id): int
+    public function delete(string $uuid): int
     {
         // TODO: Implement delete() method.
     }

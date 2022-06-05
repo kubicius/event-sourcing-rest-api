@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('v1/')->group(function ()
 {
     Route::post('partners', [PartnerController::class, 'create']);
-    Route::get('partners/{id}', [PartnerController::class, 'get']);
+    Route::get('partners/{uuid}', [PartnerController::class, 'get']);
     Route::get('partners', [PartnerController::class, 'getAll']);
-    Route::patch('partners/{id}', [PartnerController::class, 'update']);
-    Route::delete('partners/{id}', [PartnerController::class, 'delete']);
+    Route::put('partners/{uuid}', [PartnerController::class, 'update']);
+    Route::delete('partners/{uuid}', [PartnerController::class, 'delete']);
 });

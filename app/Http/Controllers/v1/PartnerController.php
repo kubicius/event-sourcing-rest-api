@@ -16,9 +16,9 @@ class PartnerController extends Controller
         $this->partnerService = $partnerService;
     }
 
-    public function get(int $id)
+    public function get(string $uuid)
     {
-        $result = $this->partnerService->getOne($id);
+        $result = $this->partnerService->getOne($uuid);
         return response()->json($result, !empty($result) ? 200 : 204);
     }
 
@@ -33,14 +33,15 @@ class PartnerController extends Controller
         return response()->json($this->partnerService->create($request->all()), 201);
     }
 
-    public function delete($id)
+    public function delete(string $uuid)
     {
-        $outcome = $this->partnerService->delete($id);
+        $outcome = $this->partnerService->delete($uuid);
         return response()->json(null, $outcome === 0 ? 404 : 204);
     }
 
-    public function update(PartnerUpdateRequest $request, int $id)
+    public function update(PartnerUpdateRequest $request, string $uuid)
     {
-
+        $result = $this->partnerService->update($uuid, $request->all());
+        return response()->json($result, !empty($result) ? 201 : 404);
     }
 }
