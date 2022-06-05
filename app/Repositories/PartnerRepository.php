@@ -12,7 +12,7 @@ class PartnerRepository implements Interfaces\IPartnerRepository
         // TODO: Implement getOne() method.
     }
 
-    public function getByUuid(int $uuid): ?Partner
+    public function getByUuid(string $uuid): ?Partner
     {
         return Partner::where('uuid', '=', $uuid)->first();
     }

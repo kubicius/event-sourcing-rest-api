@@ -32,7 +32,7 @@ class PartnerService implements IPartnerService
     {
         $data['uuid'] = (string) Uuid::uuid4();
         event(new PartnerCreated($data));
-        return $this->partnerRepository->getByUuid((int) $data['uuid']);
+        return $this->partnerRepository->getByUuid($data['uuid']);
     }
 
     public function update(array $data, int $id): Partner

@@ -31,8 +31,8 @@ class Partner extends Model
     protected function uuid(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => intval($value),
-            set: fn ($value) => intval($value),
+            get: fn ($value) => $value,
+            set: fn ($value) => $value,
         );
     }
 
