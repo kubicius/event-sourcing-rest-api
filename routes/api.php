@@ -1,19 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\v1\PartnerController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('v1/')->group(function ()
+{
+    Route::post('partners', [PartnerController::class, 'create']);
+    Route::get('partners/{id}', [PartnerController::class, 'get']);
+    Route::patch('partners/{id}', [PartnerController::class, 'update']);
+    Route::delete('partners/{id}', [PartnerController::class, 'delete']);
 });
