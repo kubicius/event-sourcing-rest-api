@@ -81,8 +81,8 @@ class PartnerControllerTests extends TestCase
             'www' => $faker->url()
         ];
 
-        $this->json('put', 'api/v1/partners/' . $partnerObj->uuid, $data)
-            ->assertStatus(201)
+        $this->json('patch', 'api/v1/partners/' . $partnerObj->uuid, $data)
+            ->assertStatus(200)
             ->assertJsonStructure(
                 [
                     'id',
@@ -95,5 +95,18 @@ class PartnerControllerTests extends TestCase
                     'updated_at'
                 ]
             );
+    }
+
+    /**
+     * Testing the partner delete request with correct data.
+     *
+     * @return void
+     */
+    public function testPartnerDeletedSuccessfully()
+    {
+        $partnerObj = Partner::factory()->create();
+
+        $this->json('delete', 'api/v1/partners/' . $partnerObj->uuid)
+            ->assertStatus(204);
     }
 }

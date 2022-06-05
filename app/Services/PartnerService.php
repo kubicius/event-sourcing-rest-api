@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Events\PartnerDeleted;
 use App\Events\PartnerUpdated;
+use App\Helpers\PayloadHelper;
 use App\Repositories\Interfaces\IPartnerRepository;
 use Illuminate\Support\Collection;
 use App\Services\Interfaces\IPartnerService;
@@ -21,12 +23,12 @@ class PartnerService implements IPartnerService
 
     public function getOne(string $uuid): ?Partner
     {
-        // TODO: Implement getOne() method.
+        return $this->partnerRepository->getOne($uuid);
     }
 
     public function getAll(): Collection
     {
-        // TODO: Implement getAll() method.
+        return $this->partnerRepository->getAll();
     }
 
     public function create(array $data): Partner
@@ -36,14 +38,28 @@ class PartnerService implements IPartnerService
         return $this->partnerRepository->getOne($data['uuid']);
     }
 
-    public function update(string $uuid, array $data): Partner
+    public function update(string $uuid, array $data): ?Partner
     {
-        event(new PartnerUpdated($uuid, $data));
-        return $this->partnerRepository->getOne($uuid);
+        $partnerObj = $this->partnerRepository->getOne($uuid);
+        if (!empty($partnerObj))
+        {
+            $attributes = PayloadHelper::modified($partnerObj, $data);
+            if (!empty($attributes))
+            {
+                event(new PartnerUpdated($uuid, $attributes));
+            }
+            return $this->partnerRepository->getOne($uuid);
+        }
+        return null;
     }
 
-    public function delete(string $uuid): int
+    public function delete(string $uuid): bool
     {
-        // TODO: Implement delete() method.
+        if ($this->partnerRepository->getOne($uuid))
+        {
+            event(new PartnerDeleted($uuid));
+            return true;
+        }
+        return false;
     }
 }

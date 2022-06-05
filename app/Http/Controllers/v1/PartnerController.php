@@ -35,13 +35,13 @@ class PartnerController extends Controller
 
     public function delete(string $uuid)
     {
-        $outcome = $this->partnerService->delete($uuid);
-        return response()->json(null, $outcome === 0 ? 404 : 204);
+        $deleted = $this->partnerService->delete($uuid);
+        return response()->json(null, $deleted ? 204 : 404);
     }
 
     public function update(PartnerUpdateRequest $request, string $uuid)
     {
         $result = $this->partnerService->update($uuid, $request->all());
-        return response()->json($result, !empty($result) ? 201 : 404);
+        return response()->json($result, !empty($result) ? 200 : 404);
     }
 }

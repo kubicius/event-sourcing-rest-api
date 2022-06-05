@@ -14,7 +14,7 @@ class PartnerRepository implements Interfaces\IPartnerRepository
 
     public function getAll(): Collection
     {
-        // TODO: Implement getAll() method.
+        return Partner::all();
     }
 
     public function create(array $data): Partner
@@ -29,19 +29,23 @@ class PartnerRepository implements Interfaces\IPartnerRepository
         return Partner::create($payload);
     }
 
-    public function update(string $uuid, array $data): Partner
+    public function update(string $uuid, array $data): ?Partner
     {
-        $payload = [
-            'name' => $data['name'],
-            'description' => $data['description'],
-            'tax_number' => $data['tax_number']
-        ];
-        $payload['www'] = $data['www'] ?? null;
-        return Partner::where('uuid', '=', $uuid)->update($payload);
+        $partnerObj = Partner::where('uuid', '=', $uuid)->first();
+        if (!empty($partnerObj))
+        {
+            $partnerObj->name = $data['name'] ?? $partnerObj->name;
+            $partnerObj->description = $data['description'] ?? $partnerObj->description;
+            $partnerObj->tax_number = $data['tax_number'] ?? $partnerObj->tax_number;
+            $partnerObj->www = $data['www'] ?? $partnerObj->www;
+            $partnerObj->save();
+            return $partnerObj;
+        }
+        return null;
     }
 
-    public function delete(string $uuid): int
+    public function delete(string $uuid): bool
     {
-        // TODO: Implement delete() method.
+        return Partner::where('uuid', '=', $uuid)->delete() !== 0;
     }
 }

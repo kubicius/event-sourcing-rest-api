@@ -8,7 +8,7 @@ class PartnerDeleted extends ShouldBeStored
 {
     public string $uuid;
 
-    public function __construct(string $uuid, array $attributes)
+    public function __construct(string $uuid)
     {
         $this->uuid = $uuid;
     }

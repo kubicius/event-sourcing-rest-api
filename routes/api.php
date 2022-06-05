@@ -8,6 +8,6 @@ Route::prefix('v1/')->group(function ()
     Route::post('partners', [PartnerController::class, 'create']);
     Route::get('partners/{uuid}', [PartnerController::class, 'get']);
     Route::get('partners', [PartnerController::class, 'getAll']);
-    Route::put('partners/{uuid}', [PartnerController::class, 'update']);
+    Route::patch('partners/{uuid}', [PartnerController::class, 'update']);
     Route::delete('partners/{uuid}', [PartnerController::class, 'delete']);
 });
