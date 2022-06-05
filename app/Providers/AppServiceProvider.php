@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Repositories\Interfaces\IPartnerRepository;
+use App\Repositories\PartnerRepository;
+use App\Services\Interfaces\IPartnerService;
+use App\Services\PartnerService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +17,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(IPartnerRepository::class, PartnerRepository::class);
+        $this->app->bind(IPartnerService::class, PartnerService::class);
     }
 
     /**

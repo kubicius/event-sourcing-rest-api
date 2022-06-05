@@ -2,34 +2,45 @@
 
 namespace App\Services;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Repositories\Interfaces\IPartnerRepository;
 use Illuminate\Support\Collection;
 use App\Services\Interfaces\IPartnerService;
+use App\Models\Partner;
+use App\Events\PartnerCreated;
+use Ramsey\Uuid\Uuid;
 
 class PartnerService implements IPartnerService
 {
+    private IPartnerRepository $partnerRepository;
 
-    public function getOne(int $categoryId, int $id): ?Model
+    public function __construct(IPartnerRepository $partnerRepository)
+    {
+        $this->partnerRepository = $partnerRepository;
+    }
+
+    public function getOne(int $id): ?Partner
     {
         // TODO: Implement getOne() method.
     }
 
-    public function getAll(int $categoryId): Collection
+    public function getAll(): Collection
     {
         // TODO: Implement getAll() method.
     }
 
-    public function create(array $data, int $categoryId): ?Model
+    public function create(array $data): Partner
     {
-        // TODO: Implement create() method.
+        $data['uuid'] = (string) Uuid::uuid4();
+        event(new PartnerCreated($data));
+        return $this->partnerRepository->getByUuid((int) $data['uuid']);
     }
 
-    public function update(array $data, int $categoryId, int $id): ?Model
+    public function update(array $data, int $id): Partner
     {
         // TODO: Implement update() method.
     }
 
-    public function delete(int $categoryId, int $id): int
+    public function delete(int $id): int
     {
         // TODO: Implement delete() method.
     }

@@ -2,14 +2,14 @@
 
 namespace App\Services\Interfaces;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Partner;
 use Illuminate\Support\Collection;
 
 interface IPartnerService
 {
-    public function getOne(int $categoryId, int $id) : ?Model;
-    public function getAll(int $categoryId) : Collection;
-    public function create(array $data, int $categoryId) : ?Model;
-    public function update(array $data, int $categoryId, int $id) : ?Model;
-    public function delete(int $categoryId, int $id) : int;
+    public function getOne(int $id) : ?Partner;
+    public function getAll() : Collection;
+    public function create(array $data) : Partner;
+    public function update(array $data, int $id) : Partner;
+    public function delete(int $id) : int;
 }
