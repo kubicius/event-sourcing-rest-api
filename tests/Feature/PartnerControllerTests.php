@@ -109,4 +109,56 @@ class PartnerControllerTests extends TestCase
         $this->json('delete', 'api/v1/partners/' . $partnerObj->uuid)
             ->assertStatus(204);
     }
+
+    /**
+     * Testing the partner get request with correct data.
+     *
+     * @return void
+     */
+    public function testPartnerGotSuccessfully()
+    {
+        $partnerObj = Partner::factory()->create();
+
+        $data = [
+            'fields'  => 'name,description,tax_number,www'
+        ];
+
+        $this->json('get', 'api/v1/partners/' . $partnerObj->uuid, $data)
+            ->assertStatus(200)
+            ->assertJsonStructure(
+                [
+                    'name',
+                    'description',
+                    'tax_number',
+                    'www'
+                ]
+            );
+    }
+
+    /**
+     * Testing the partner get all request with correct data.
+     *
+     * @return void
+     */
+    public function testPartnersGotSuccessfully()
+    {
+        Partner::factory()->create();
+
+        $data = [
+            'fields'  => 'name,description,tax_number,www',
+            'page' => 1,
+            'per_page' => 10
+        ];
+
+        $this->json('get', 'api/v1/partners', $data)
+            ->assertStatus(200)
+            ->assertJsonStructure(
+                [
+                    'data',
+                    'current_page',
+                    'per_page',
+                    'total'
+                ]
+            );
+    }
 }

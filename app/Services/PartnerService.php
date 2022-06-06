@@ -6,11 +6,11 @@ use App\Events\PartnerDeleted;
 use App\Events\PartnerUpdated;
 use App\Helpers\PayloadHelper;
 use App\Repositories\Interfaces\IPartnerRepository;
-use Illuminate\Support\Collection;
 use App\Services\Interfaces\IPartnerService;
 use App\Models\Partner;
 use App\Events\PartnerCreated;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Contracts\Support\Arrayable;
 
 class PartnerService implements IPartnerService
 {
@@ -21,14 +21,14 @@ class PartnerService implements IPartnerService
         $this->partnerRepository = $partnerRepository;
     }
 
-    public function getOne(string $uuid): ?Partner
+    public function getOne(string $uuid, array $fields): ?Partner
     {
-        return $this->partnerRepository->getOne($uuid);
+        return $this->partnerRepository->getOne($uuid, $fields);
     }
 
-    public function getAll(): Collection
+    public function getAll(array $fields, int $perPage): Arrayable
     {
-        return $this->partnerRepository->getAll();
+        return $this->partnerRepository->getAll($fields, $perPage);
     }
 
     public function create(array $data): Partner

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Requests\PartnerCreateRequest;
+use App\Http\Requests\PartnerGetAllRequest;
+use App\Http\Requests\PartnerGetOneRequest;
 use App\Http\Requests\PartnerUpdateRequest;
 use App\Services\Interfaces\IPartnerService;
 use Illuminate\Http\JsonResponse;
@@ -16,15 +18,28 @@ class PartnerController extends Controller
         $this->partnerService = $partnerService;
     }
 
-    public function get(string $uuid)
+    public function get(PartnerGetOneRequest $request, string $uuid)
     {
-        $result = $this->partnerService->getOne($uuid);
+        $fields = $request->input('fields');
+        $fieldsArray = [];
+        if (!empty($fields))
+        {
+            $fieldsArray = explode(',', $fields);
+        }
+        $result = $this->partnerService->getOne($uuid, $fieldsArray);
         return response()->json($result, !empty($result) ? 200 : 204);
     }
 
-    public function getAll()
+    public function getAll(PartnerGetAllRequest $request)
     {
-        $results = $this->partnerService->getAll();
+        $perPage = $request->input('per_page') ?? 15;
+        $fields = $request->input('fields');
+        $fieldsArray = [];
+        if (!empty($fields))
+        {
+            $fieldsArray = explode(',', $fields);
+        }
+        $results = $this->partnerService->getAll($fieldsArray, $perPage);
         return response()->json($results, !empty($results) ? 200 : 204);
     }
 

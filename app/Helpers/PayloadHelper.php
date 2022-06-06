@@ -18,4 +18,15 @@ class PayloadHelper
         }
         return $attributes;
     }
+
+    public static function validFields(string $className, array $fields) : array
+    {
+        $validFields = [];
+        $fieldNames = $className::getFieldNames();
+        foreach ($fields as $field)
+        {
+            if (in_array($field, $fieldNames)) array_push($validFields, $field);
+        }
+        return $validFields;
+    }
 }

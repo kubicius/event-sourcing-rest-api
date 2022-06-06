@@ -2,19 +2,31 @@
 
 namespace App\Repositories;
 
+use App\Helpers\PayloadHelper;
 use App\Models\Partner;
-use Illuminate\Support\Collection;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Pagination\Paginator;
 
 class PartnerRepository implements Interfaces\IPartnerRepository
 {
-    public function getOne(string $uuid): ?Partner
+    public function getOne(string $uuid, array $fields = []): ?Partner
     {
-        return Partner::where('uuid', '=', $uuid)->first();
+        $queryBuilderObj = Partner::where('uuid', '=', $uuid);
+        if (!empty($fields))
+        {
+            $selectArray = PayloadHelper::validFields(Partner::class, $fields);
+            $queryBuilderObj->select($selectArray);
+        }
+        return $queryBuilderObj->first();
     }
 
-    public function getAll(): Collection
+    public function getAll(array $fields, int $perPage): Arrayable
     {
-        return Partner::all();
+        if (!empty($fields))
+        {
+            $selectArray = PayloadHelper::validFields(Partner::class, $fields);
+        }
+        return Partner::paginate($perPage, $selectArray ?? ['*']);
     }
 
     public function create(array $data): Partner

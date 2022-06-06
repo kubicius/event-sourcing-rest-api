@@ -10,6 +10,15 @@ class Partner extends Model
 {
     use HasFactory;
     protected $fillable = ['uuid', 'name', 'description', 'tax_number', 'www'];
+    protected static array $fieldNames = ['id', 'uuid', 'name', 'description', 'tax_number', 'www', 'created_at', 'updated_at'];
+
+    /**
+     * @return array|string[]
+     */
+    public static function getFieldNames(): array
+    {
+        return self::$fieldNames;
+    }
 
     /**
      * Get the partner's ID.

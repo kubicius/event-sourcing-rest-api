@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PartnerGetOneRequest extends FormRequest
+class PartnerGetAllRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,9 @@ class PartnerGetOneRequest extends FormRequest
     public function rules()
     {
         return [
-            'fields' => 'regex:/^[a-z_]+(,[a-z_]+)*$/'
+            'fields' => 'regex:/^[a-z_]+(,[a-z_]+)*$/',
+            'page' => 'integer',
+            'per_page' => 'integer'
         ];
     }
 }
