@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Partner extends Model
+class Partner extends Model implements IModel
 {
     use HasFactory;
     protected $fillable = ['uuid', 'name', 'description', 'tax_number', 'www'];
     protected static array $fieldNames = ['id', 'uuid', 'name', 'description', 'tax_number', 'www', 'created_at', 'updated_at'];
 
     /**
-     * @return array|string[]
+     * @return array
      */
     public static function getFieldNames(): array
     {

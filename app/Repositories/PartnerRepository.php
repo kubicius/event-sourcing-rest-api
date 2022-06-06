@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Helpers\PayloadHelper;
 use App\Models\Partner;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Pagination\Paginator;
 
 class PartnerRepository implements Interfaces\IPartnerRepository
 {
@@ -14,7 +13,7 @@ class PartnerRepository implements Interfaces\IPartnerRepository
         $queryBuilderObj = Partner::where('uuid', '=', $uuid);
         if (!empty($fields))
         {
-            $selectArray = PayloadHelper::validFields(Partner::class, $fields);
+            $selectArray = PayloadHelper::validFieldNames(new Partner(), $fields);
             $queryBuilderObj->select($selectArray);
         }
         return $queryBuilderObj->first();
@@ -24,7 +23,7 @@ class PartnerRepository implements Interfaces\IPartnerRepository
     {
         if (!empty($fields))
         {
-            $selectArray = PayloadHelper::validFields(Partner::class, $fields);
+            $selectArray = PayloadHelper::validFieldNames(new Partner(), $fields);
         }
         return Partner::paginate($perPage, $selectArray ?? ['*']);
     }
